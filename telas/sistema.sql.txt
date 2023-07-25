@@ -1,0 +1,109 @@
+CREATE TABLE estado
+(
+  id integer NOT NULL DEFAULT nextval('uf_id_seq'::regclass),
+  uf character varying(200),
+  estado character varying(200),
+  CONSTRAINT id_uf PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE estado
+  OWNER TO postgres;
+
+CREATE TABLE cidade
+(
+  id serial NOT NULL,
+  cidade character varying(200),
+  id_estado integer,
+  CONSTRAINT id_cidade PRIMARY KEY (id),
+  CONSTRAINT id_estado FOREIGN KEY (id_estado)
+      REFERENCES estado (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cidade
+  OWNER TO postgres;
+
+CREATE TABLE tipo_endereco
+(
+  id serial NOT NULL,
+  tipo_endereco character varying(50),
+  CONSTRAINT id_tipo_endereco PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE tipo_endereco
+  OWNER TO postgres;
+
+
+
+CREATE TABLE pessoa
+(
+  id serial NOT NULL,
+  nome character varying(200) NOT NULL,
+  razaosocial character varying(200),
+  cpf character varying(14) NOT NULL,
+  cnpj character varying(18),
+  telefone character varying(14),
+  email character varying(256),
+  tipo_pessoa character varying(2),
+  CONSTRAINT id_pessoa PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE pessoa
+  OWNER TO postgres;
+
+CREATE TABLE endereco
+(
+  id serial NOT NULL,
+  endereco character varying(200),
+  numero character varying(10),
+  complemento character varying(200),
+  bairro character varying(100),
+  cep character varying(9),
+  id_estado integer,
+  id_cidade integer,
+  id_pessoa integer,
+  id_tipo_endereco integer,
+  CONSTRAINT id_endereco PRIMARY KEY (id),
+  CONSTRAINT id_cidade FOREIGN KEY (id_cidade)
+      REFERENCES cidade (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT id_estado FOREIGN KEY (id_estado)
+      REFERENCES estado (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT id_pessoa FOREIGN KEY (id_pessoa)
+      REFERENCES pessoa (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT id_tipo_endereco FOREIGN KEY (id_tipo_endereco)
+      REFERENCES tipo_endereco (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE endereco
+  OWNER TO postgres;
+
+
+
+CREATE TABLE usuario
+(
+  id integer NOT NULL DEFAULT nextval('usuario_id_usuario_seq'::regclass),
+  nome character varying(200),
+  login character varying(50),
+  senha character varying(50),
+  ativo boolean,
+  CONSTRAINT id_usuario PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE usuario
+  OWNER TO postgres;

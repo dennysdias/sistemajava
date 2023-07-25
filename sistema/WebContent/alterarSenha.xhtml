@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message"/>
+    <h:form id="login">
+    
+        <rich:panel>
+            <f:facet name="header">Alterar senha</f:facet>
+            <p>Preencha os campos abaixo, e clique em alterar</p>
+            <s:decorate id="senhaAtualDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">Senha atual</ui:define>
+                <h:inputSecret id="senhaAtual"
+                       	  	value="#{alterarSenhaHome.senhaAtual}"
+                       	 required="true"/>
+            </s:decorate>
+            <s:decorate id="novaSenhaDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">Nova senha</ui:define>
+                <h:inputSecret id="novaSenha"
+                       	    value="#{alterarSenhaHome.novaSenha}"
+                         required="true"/>
+            </s:decorate>
+            <s:decorate id="novaSenhaConfirmacaoDecoration" template="layout/edit.xhtml">            	
+                <ui:define name="label">Confirme a senha</ui:define>
+                <h:inputSecret id="novaSenhaConfirmacao"
+                       	  value="#{alterarSenhaHome.novaSenhaConfirmacao}"
+                       required="true"/>
+            </s:decorate>
+            <div style="clear:both"/>
+        </rich:panel>            
+        <div class="actionButtons">
+            <h:commandButton value="Alterar" action="#{alterarSenhaHome.alterarSenhaUsuario}"/>
+        </div>
+    </h:form>
+</ui:define>
+  
+</ui:composition>

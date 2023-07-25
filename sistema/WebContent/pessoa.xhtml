@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+  <h:messages globalOnly="true" styleClass="message"/>
+    <h:form id="pessoaForm">
+
+        <rich:panel id="panelCadastro">
+            <f:facet name="header">Cadastro de pessoas física/jurídica</f:facet>
+	       
+	             <h:selectOneRadio immediate="true" value="#{pessoaHome.instance.tipoPessoa}">
+				   <f:selectItem itemLabel="Pessoa física" itemValue="pf" />
+				   <f:selectItem itemLabel="Pessoa jurídica" itemValue="pj" />
+				   <a4j:support event="onchange" 
+				         action="#{pessoaHome.limparCampos()}"
+						 reRender="panelCadastro"
+						 ajaxSingle="true" />
+				   <a4j:support event="onselect" 
+				         action="#{pessoaHome.limparCampos()}"
+						 reRender="panelCadastro"
+						 ajaxSingle="true" />
+				</h:selectOneRadio>
+				
+            <div style="clear: both" />
+            
+            <s:decorate id="nomeField" rendered="#{pessoaHome.instance.tipoPessoa=='pf'}" template="layout/edit.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="nome" required="true" style=" width : 500px;"
+                             value="#{pessoaHome.instance.nome}"/>
+            </s:decorate>
+            <div style="clear: both" />
+            
+            <s:decorate id="cpfField" rendered="#{pessoaHome.instance.tipoPessoa=='pf'}" template="layout/edit.xhtml">
+                <ui:define name="label">Cpf</ui:define>
+                <h:inputText id="cpf" required="true" style=" width : 100px;"
+                             value="#{pessoaHome.instance.cpf}"/>
+            </s:decorate>
+            <div style="clear: both" />
+            
+            <s:decorate id="razaoSocialField" rendered="#{pessoaHome.instance.tipoPessoa=='pj'}" template="layout/edit.xhtml">
+                <ui:define name="label">Razão social</ui:define>
+                <h:inputText id="razaoSocial" required="true" style=" width : 500px;"
+                             value="#{pessoaHome.instance.razaoSocial}"/>
+            </s:decorate>
+            <div style="clear: both" />
+            
+            <s:decorate id="cnpjField" rendered="#{pessoaHome.instance.tipoPessoa=='pj'}" template="layout/edit.xhtml">
+                <ui:define name="label">Cnpj</ui:define>
+                <h:inputText id="cnpj" required="true" style=" width : 100px;"
+                             value="#{pessoaHome.instance.cnpj}"/>
+            </s:decorate>
+            <div style="clear: both" />
+            
+            <s:decorate id="telefoneField" template="layout/edit.xhtml">
+                <ui:define name="label">Telefone</ui:define>
+                <h:inputText id="telefone" required="true" style=" width : 100px;"
+                             value="#{pessoaHome.instance.telefone}"/>
+            </s:decorate>
+            <div style="clear: both" />
+            
+            <s:decorate id="emailField" template="layout/edit.xhtml">
+                <ui:define name="label">Email</ui:define>
+                <h:inputText id="email" required="true" style=" width : 500px;"
+                             value="#{pessoaHome.instance.email}"/>
+            </s:decorate>
+            <div style="clear: both" />
+            
+            
+            <div style="clear:both"/>
+            
+			<rich:panel id="enderecoData">
+			
+			
+				            <s:decorate id="tipoEnderecoDecoration" template="layout/edit.xhtml">
+							     <ui:define name="label">Tipo de endereço:</ui:define>
+							     <h:selectOneMenu value="#{enderecoHome.instance.tipoEndereco}">
+							        <s:selectItems id="tipoEndereco" 
+									    var="tipoEndereco"
+									    value="#{tipoEnderecoList.resultList}"
+									    label="#{tipoEndereco.tipoEndereco}"
+									    noSelectionLabel="Selecione um tipo de endereço" />
+								     <s:convertEntity />
+							      </h:selectOneMenu>
+					        </s:decorate>
+		    
+		    
+							<s:decorate id="enderecoDecoration" template="layout/edit.xhtml">
+								<ui:define name="label">Endereço:</ui:define>
+								<h:inputText value="#{enderecoHome.instance.endereco}" style=" width : 503px;"/>
+							</s:decorate>
+														
+							<s:decorate id="numeroDecoration" template="layout/edit.xhtml">
+								<ui:define name="label">Nº:</ui:define>
+								<h:inputText value="#{enderecoHome.instance.numero}" style=" width : 50px;"/>
+							</s:decorate>
+							
+							<s:decorate id="bairroDecoration" template="layout/edit.xhtml">
+								<ui:define name="label">Bairro:</ui:define>
+								<h:inputText value="#{enderecoHome.instance.bairro}" style=" width : 400px;"/>
+							</s:decorate>
+							
+							<s:decorate id="cepDecoration" template="layout/edit.xhtml">
+								<ui:define name="label">Cep:</ui:define>
+								<h:inputText value="#{enderecoHome.instance.cep}" style=" width : 70px;"/>
+							</s:decorate>
+							
+							
+							<a4j:region id="estadoRegion"> 
+              
+						     <s:decorate id="estadoDecoration" template="layout/edit.xhtml">
+											<ui:define name="label">Estado</ui:define>
+											<h:selectOneMenu value="#{enderecoHome.instance.estado}" >
+												<s:selectItems id="estado"  var="estado" 
+													value="#{estadoList.resultList}" 
+													label="#{estado.uf} - #{estado.estado}"
+													noSelectionLabel="selecione o estado" />
+												<s:convertEntity />								             
+												<a4j:support event="onchange" 
+												             action="#{cidadeList.atualizarEstado(enderecoHome.instance.estado)}"
+												             reRender="cidadeDecoration"
+												             ajaxSingle="true"
+												             status="status" />
+												<a4j:support event="onselect" 
+												             action="#{cidadeList.atualizarEstado(enderecoHome.instance.estado)}"
+												             reRender="cidadeDecoration"
+												             ajaxSingle="true" />             								             
+											</h:selectOneMenu>
+							      </s:decorate>
+							</a4j:region>					
+							<a4j:region id="cidadeRegion">
+								<s:decorate id="cidadeDecoration" template="layout/edit.xhtml">
+												<ui:define name="label">Cidade</ui:define>
+												<h:selectOneMenu value="#{enderecoHome.instance.cidade}">
+													<s:selectItems id="cidade"  var="cidade"								    
+														value="#{cidadeList.listarCidades(enderecoHome.instance.estado)}" 
+														label="#{cidade.cidade}"
+														noSelectionLabel="selecione uma cidade" />
+													<s:convertEntity />
+												</h:selectOneMenu>       	  
+								</s:decorate>
+							</a4j:region>		
+
+							<s:decorate id="adicionarEnderecoDecoration"
+								template="layout/edit.xhtml">
+								<ui:define name="label"></ui:define>
+								<a4j:commandButton id="adicionarEnderecoButton"
+									action="#{pessoaHome.adicionarItem(enderecoHome)}"
+									value="Adicionar" ignoreDupResponses="true" 
+									reRender="enderecoDataTable,enderecoData,message" />
+							</s:decorate>
+
+							<div style="clear: both" />
+
+							<f:facet name="header">Endereço:</f:facet>
+							<h:outputText value="Nenhum endereço cadastrado."
+								rendered="#{empty pessoaHome.instance.endereco}" style=" width : 503px;" />
+							<rich:dataTable id="enderecoDataTable" var="endereco"
+								value="#{pessoaHome.instance.endereco}"
+								rendered="#{not empty pessoaHome.instance.endereco}"
+								onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
+								onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'"
+								width="50%">								
+                                
+                                <rich:column style="text-align: left" width="15">
+									<f:facet name="header">Tipo de endereço</f:facet>
+									<h:outputText value="#{endereco.tipoEndereco.tipoEndereco}" />
+								</rich:column>
+                                
+								<rich:column style="text-align: left" width="80">
+									<f:facet name="header">Endereço</f:facet>
+									<h:outputText value="#{endereco.endereco} #{endereco.numero} #{endereco.bairro} #{endereco.estado.uf} #{endereco.cidade.cidade} - #{endereco.cep}" />
+								</rich:column>
+								<rich:column style="text-align:right" width="5">
+									<f:facet name="header" style="text-align: center">X</f:facet>
+									<a4j:commandLink id="removerEndereco" 
+										action="#{pessoaHome.removerItem(endereco)}"
+										ajaxSingle="true" reRender="enderecoDataTable,enderecoData">
+										<h:graphicImage value="img/lixeira.gif" title="remover" />
+									</a4j:commandLink>
+								</rich:column>
+							</rich:dataTable>
+			          </rich:panel>
+            
+ 
+               <div style="clear:both"/>
+						     
+            
+            
+             
+        </rich:panel>    
+        <div class="actionButtons">
+            <h:commandButton id="save"
+                          value="Cadastrar"
+                         action="#{pessoaHome.persist}"
+                       rendered="#{!pessoaHome.managed}"/>
+            <h:commandButton id="update"
+                          value="Salvar"
+                         action="#{pessoaHome.update}"
+                       rendered="#{pessoaHome.managed}"/>
+            <h:commandButton id="delete"
+                          value="Deletar"
+                         action="#{pessoaHome.remove}"
+                      immediate="true"
+                       rendered="#{pessoaHome.managed}"/>
+            <s:button propagation="end"
+                               id="cancel"
+                            value="Lista de Usuários"
+                             view="/pessoaList.xhtml"/>
+        </div>
+
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

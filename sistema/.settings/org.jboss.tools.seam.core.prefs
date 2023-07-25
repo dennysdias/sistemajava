@@ -1,0 +1,17 @@
+#Fri Jul 14 17:41:52 BRT 2023
+action.package=br.com.sistema.controller
+action.sources=/sistema-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=br.com.sistema.model
+model.sources=/sistema-ejb/ejbModule
+seam.ear.project=sistema-ear
+seam.ejb.project=sistema-ejb
+seam.project.connection.profile=PostgreSQL
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/sistema/WebContent
+seam.runtime.name=jboss-seam-2.2.1.CR1
+seam.test.creating=true
+seam.test.project=sistema-test
+test.package=br.com.sistema.test
+test.sources=/sistema-test/test-src

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j"
+                template="layout/template.xhtml">                       
+<ui:define name="body">    
+    <h:messages globalOnly="true" styleClass="message"/>            
+        <div class="results">
+        <h:form>
+        <div class="actionButtons">
+			    <h:outputText value="Pesquisar pessoa física/jurídica: " />
+			    <div style="clear: both" />			    
+			    <h:outputText value="Nome: " />		    
+			    <h:inputText id="pessoapesquisa"
+				  value="#{pessoaList.pessoaPesquisa.nome}" style=" width : 292px;"/>		     
+				<a4j:commandButton id="pesquisar" 
+				 action="#{pessoaList.pesquisar()}"
+				  value="Localizar" view="/pessoa.xhtml" reRender="pessoaData" />		
+			    <s:button id="done" 
+                  value="Novo"                  
+                  view="/pessoa.xhtml"/>				   
+			    </div>			    			   
+			   <div style="clear: both" />
+			   
+			   
+			   <rich:dataTable id="pessoaData" rows="10"  columnClasses="col"
+				value="#{pessoaList.listarPessoas()}" var="pessoa"
+				onRowMouseOver="this.style.backgroundColor='#F8F8F8'"
+				onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'"
+				style=" width : 800px;">
+				<f:facet name="header">
+					<rich:columnGroup>
+						<h:column>
+							<h:outputText value="Id" />
+						</h:column>
+						<h:column>
+							<h:outputText value="Nome" />
+						</h:column>
+						<h:column>
+							<h:outputText value="Razão social" />
+						</h:column>
+					</rich:columnGroup>
+				</f:facet>
+				<h:column>
+					<h:outputText value="#{pessoa.id}" />
+				</h:column>
+				<h:column>	
+					<s:link id="nome" 
+                         value="#{pessoa.nome}" 
+                         view="/pessoa.xhtml">
+                        <f:param name="pessoaId" 
+                                value="#{pessoa.id}"/>
+                    </s:link>
+				</h:column>
+				<h:column>	
+					<s:link id="razaoSocial" 
+                         value="#{pessoa.razaoSocial}" 
+                         view="/pessoa.xhtml">
+                        <f:param name="pessoaId" 
+                                value="#{pessoa.id}"/>
+                    </s:link>
+				</h:column>
+			</rich:dataTable>
+			<rich:datascroller align="center" for="pessoaData" maxPages="10"
+				page="#{pessoaList.pageCount}" id="sc1"
+				style=" width : 800px;" />
+				
+				                    
+         </h:form>
+        </div>            
+</ui:define>
+</ui:composition>
+
